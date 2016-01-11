@@ -1,6 +1,7 @@
 package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,109 +15,47 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class BeaconPush {
 
-    final static double liftVerticalValue = 0; // <- fix this
-    final static double liftPower = .85; // <- set this
+    final static double rightButtonValue = 0; // <- set this
+    final static double leftButtonValue = 1; // <- set this
 
-    final static int highValue = 7500; //<- set this
-
-    final static double raisedValue = .35; // <- set this
-    final static double loweredValue = .85; // <- set this
+    final static double holdClimbersValue = 0; // <- set this
+    final static double releaseClimbersValue = 1; // <- set this
 
     private LinearOpMode opMode;
-    private HardwareMap hardwareMap = new HardwareMap();
-    private DcMotorController driveTrainMotorController;
-    private DcMotor liftMotor; // pully motor
-    private Servo liftServo; // retracts the lift
-
-    private int startingLiftPos;
-    private int currentLiftPos;
-
+    private Servo buttonServo; // pully motor
+    private Servo climberServo; // retracts the lift
+    private ColorSensor rearColorSensor;
 
     public BeaconPush(LinearOpMode opMode) throws InterruptedException{
         this.opMode = opMode;
-        opMode.telemetry.addData("cnstr: ", "Lift constructor");
+        opMode.telemetry.addData("cnstr: ", "BeaconPush constructor");
         // get hardware mappings
-        liftMotor = opMode.hardwareMap.dcMotor.get("liftMotor");
-        liftServo = opMode.hardwareMap.servo.get("liftServo");
+        buttonServo = opMode.hardwareMap.servo.get("buttonServo");
+        climberServo = opMode.hardwareMap.servo.get("climberServo");
 
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
-        liftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        buttonServo.setPosition(leftButtonValue);
+        climberServo.setPosition(holdClimbersValue);
 
-        opMode.waitForNextHardwareCycle();
-
-        startingLiftPos = liftMotor.getCurrentPosition();
-        currentLiftPos = startingLiftPos;
-
-        liftServo.setPosition(raisedValue);
+        rearColorSensor = opMode.hardwareMap.colorSensor.get("rearColorSensor");
     }
 
-    private void stopMotors(){
-        liftMotor.setPower(0);
+    public void shiftRight(){
+        buttonServo.setPosition(rightButtonValue);
     }
 
-    private boolean GoUp(int targetCount, int timeout) throws InterruptedException {
-        ElapsedTime timer = new ElapsedTime();
-
-        opMode.telemetry.addData("Mthd:", "Lift.GoUP");
-        liftMotor.setPower(liftPower);
-        int targetPosition = startingLiftPos + targetCount;
-        while ((currentLiftPos < targetPosition)) {
-            currentLiftPos = liftMotor.getCurrentPosition();
-            opMode.telemetry.addData("Pos: ", currentLiftPos);
-            opMode.telemetry.addData("TPos: ", targetPosition);
-
-            if (timer.time() > timeout) {
-                stopMotors();
-                return false;
-            }
-        }
-        stopMotors();
-        return true;
+    public void shiftLeft(){
+        buttonServo.setPosition(leftButtonValue);
     }
 
-    private boolean GoDown(int timeout) throws InterruptedException {
-        ElapsedTime timer = new ElapsedTime();
-
-        opMode.telemetry.addData("Mthd:", "Lift.GoDown");
-        liftMotor.setPower(-liftPower);
-        int targetPosition = startingLiftPos;
-        while ((currentLiftPos < targetPosition)) {
-            currentLiftPos = liftMotor.getCurrentPosition();
-            opMode.telemetry.addData("Pos: ", currentLiftPos);
-            opMode.telemetry.addData("TPos: ", targetPosition);
-
-            if(timer.time() > timeout){
-                stopMotors();
-                return false;
-            }
-            stopMotors();
-        }
-        return true;
+    public void dropClimbers(){
+        climberServo.setPosition(releaseClimbersValue);
     }
 
-    public void ResetFloor(){
-        opMode.telemetry.addData("Mthd:", "Lift.ResetFloor");
-        startingLiftPos = liftMotor.getCurrentPosition();
-    }
+    public boolean leftBeaconIsRed(){
+        opMode.telemetry.addData("red: ", rearColorSensor.red());
+        opMode.telemetry.addData("green: ", rearColorSensor.green());
+        opMode.telemetry.addData("blue: ", rearColorSensor.blue());
 
-    public void Go(){
-        opMode.telemetry.addData("Mthd:", "Lift.GoHigh");
-        liftMotor.setPower(1);
+        return rearColorSensor.red() > rearColorSensor.blue();
     }
-
-    public boolean GoHigh() throws InterruptedException{
-        opMode.telemetry.addData("Mthd:", "Lift.GoHigh");
-        return GoUp(highValue,30);
-    }
-
-    public void LowerLift () throws InterruptedException{
-        opMode.telemetry.addData("Mthd:", "Lift.LowerLift");
-        liftServo.setPosition(loweredValue);
-    }
-
-    public void RaiseLift() throws InterruptedException{
-        opMode.telemetry.addData("Mthd:", "Lift.RaiseLift");
-        liftServo.setPosition(raisedValue);
-    }
-
 }
