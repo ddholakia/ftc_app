@@ -165,7 +165,7 @@ public class K9TeleOp extends OpMode {
 			armPosition -= armDelta;
 		}
 
-		// update the position of the claw
+		// update the position of claw
 		if (gamepad1.x) {
 			clawPosition += clawDelta;
 		}

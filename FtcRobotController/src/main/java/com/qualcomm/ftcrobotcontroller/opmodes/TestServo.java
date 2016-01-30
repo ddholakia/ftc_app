@@ -1,4 +1,4 @@
-/* Copyright (c) 2014, 2015 Qualcomm Technologies Inc
+/* Copyright (c) 2015 Qualcomm Technologies Inc
 
 All rights reserved.
 
@@ -31,49 +31,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
-import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
-
-import edu.fpms.faltech.DriveTrainOpMode2;
-import edu.fpms.faltech.FaltechTeleop1v3;
-import edu.fpms.faltech.FaltechTeleop1v4;
-import edu.fpms.faltech.TestServo2;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IrSeekerSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Register Op Modes
+ * A simple example of a linear op mode that will approach an IR beacon
  */
-public class FtcOpModeRegister implements OpModeRegister {
-
-  /**
-   * The Op Mode Manager will call this method when it wants a list of all
-   * available op modes. Add your op mode to the list to enable it.
-   *
-   * @param manager op mode manager
-   */
-  public void register(OpModeManager manager) {
-
-    /*
-     * register your op modes here.
-     * The first parameter is the name of the op mode
-     * The second parameter is the op mode class property
-     *
-     * If two or more op modes are registered with the same name, the app will display an error.
-     */
-
-    manager.register("NullOp",NullOp.class);
-    //manager.register("FaltechTeleop2",FaltechTeleop2.class);
-    //manager.register("TestAuto2",TestAuto2.class);
-    manager.register("DriveTrainOpmode2", DriveTrainOpMode2.class);
-    manager.register("TestServo2", TestServo2.class);
-    //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
-    //manager.register("DriveTrainOpMode", DriveTrainOpMode.class);
-    manager.register("FaltechTeleop1v3",FaltechTeleop1v3.class);
-    manager.register("FaltechTeleop1v4",FaltechTeleop1v4.class);
+public class TestServo extends LinearOpMode {
+    double servo1Position;
+    Servo servo1;
+    // amount to change the neck servo position by
+    double servo1Delta = 0.01;
+    @Override
+    public void runOpMode() throws InterruptedException {
+        servo1 = hardwareMap.servo.get("servo1");
+        servo1Position = 0.5;
+        servo1.setPosition(servo1Position);
+        telemetry.addData("Servo", "Done");
 
 
-    //manager.register("MR Gyro Test", MRGyroTest.class);
-
-    //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
-
-  }
+    }
 }
