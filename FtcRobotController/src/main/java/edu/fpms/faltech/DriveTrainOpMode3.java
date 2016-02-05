@@ -33,36 +33,32 @@ package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-public class DriveTrainOpMode5 extends LinearOpMode {
+public class DriveTrainOpMode3 extends LinearOpMode {
   DriveTrain2 driveTrain;
-  MoveElevator elevator;
-  //Lift lift;
-
-  //BeaconPush beaconPush;
+  Lift lift;
+  BeaconPush beaconPush;
 
   @Override
   public void runOpMode() throws InterruptedException {
     // set up the hardware devices we are going to use
-
-
     driveTrain = new DriveTrain2(this);
-    elevator = new MoveElevator(this);
     // lift = new Lift(this);
     // beaconPush = new BeaconPush(this);
 
     // wait for the start button to be pressed
     waitForStart();
       double driveSpeed = .25;                      // drive slow for now
-      //driveTrain.GoInches(34, driveSpeed, 30);      // go forward inches, power, seconds
-      // driveTrain.GoRightSide(1, driveSpeed );    // seconds and power
-      driveTrain.GoLeftSide(2, driveSpeed);         // start turning left and stay away from line
-      //driveTrain.GoInches(10, driveSpeed, 30);      // move towards the beacons
-      //driveTrain.GoLeftSide(1, driveSpeed);          // turn left a little more
-      //driveTrain.GoInches(54, driveSpeed, 30);       // now drive all the way to the beacon
-      elevator.moveit(2,.5, 30);
-      // driveTrain.GoInches(-10,.50,30);           // go backwards by setting inches -negative
+      driveTrain.GoInches(48, driveSpeed, 30);
+      driveTrain.PivotTurn(90,1,5);
+      sleep(3000);
+    lift.GoDown();
 
 
+   // beaconPush.shiftRight();
+
+      // while(opModeIsActive()){
+          // beaconPush.leftBeaconIsRed();
+      //}
 
   }
 }

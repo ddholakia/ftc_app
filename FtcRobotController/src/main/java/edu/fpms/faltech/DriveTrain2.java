@@ -101,13 +101,13 @@ public class DriveTrain2 {
     }
 
     private void PivotRight(double power){
-        leftMotors.setPower(power);
-        rightMotors.setPower(-power);
+        leftMotors.setPower(-power);
+        rightMotors.setPower(power);
     }
 
     private void PivotLeft(double power){
-        leftMotors.setPower(-power);
-        rightMotors.setPower(power);
+        leftMotors.setPower(power);
+        rightMotors.setPower(-power);
     }
 
     public boolean GoInches(double inches, double power, int seconds) throws InterruptedException {

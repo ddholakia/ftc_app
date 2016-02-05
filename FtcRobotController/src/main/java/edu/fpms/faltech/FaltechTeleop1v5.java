@@ -31,20 +31,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package edu.fpms.faltech;
 
-import android.widget.Spinner;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 /**
  * TeleOp Mode
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class FaltechTeleop1v4 extends OpMode {
+public class FaltechTeleop1v5 extends OpMode {
 	int HopperShuffleValue = 1;
 	double SpinnersValue = 0;
 	DcMotor LiftRight;
@@ -67,7 +64,7 @@ public class FaltechTeleop1v4 extends OpMode {
 	int MAX_ELEVATOR_VALUE= 4000 ;
 	int elevatorStartPosition;
 
-	public FaltechTeleop1v4() {
+	public FaltechTeleop1v5() {
 
 
 	}
@@ -86,8 +83,7 @@ public class FaltechTeleop1v4 extends OpMode {
 		Spinners = hardwareMap.dcMotor.get("Spinners");
 		Elevator = hardwareMap.dcMotor.get("Elevator");
 		HopperShuffle = hardwareMap.servo.get("HopperShuffle");
-		Elevator.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		elevatorStartPosition = Elevator.getCurrentPosition();
+
 	}
 
 	/*
@@ -109,10 +105,6 @@ public class FaltechTeleop1v4 extends OpMode {
 		LiftLeft.setPower(LiftLeftFloat);
 		LiftRight.setPower(LiftRightFloat);
 		Elevator.setPower(ElevatorFloat);
-		if (gamepad2.y) {
-			Elevator.setTargetPosition(elevatorStartPosition + MAX_ELEVATOR_VALUE);
-			Elevator.setPower(1);
-		}
 
 		if (gamepad2.left_bumper || gamepad2.right_bumper){
 			if (gamepad2.left_bumper) {
@@ -141,7 +133,6 @@ public class FaltechTeleop1v4 extends OpMode {
 		//	double SpinnersValue = 1;
 		//	Spinners.setPower(SpinnersValue);
 		//}
-
 
 		else if (!gamepad1.left_bumper || !gamepad1.right_bumper){
 			double SpinnersValue = 0;

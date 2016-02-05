@@ -48,15 +48,12 @@ public class DriveTrainOpMode2 extends LinearOpMode {
     // wait for the start button to be pressed
     waitForStart();
       double driveSpeed = .25;                      // drive slow for now
-      //driveTrain.GoInches(34, driveSpeed, 30);      // go forward inches, power, seconds
-      //driveTrain.GoRightSide(1, driveSpeed );    // seconds and power
-      //driveTrain.GoLeftSide(1, driveSpeed);         // start turning left and stay away from line
-      //driveTrain.GoInches(10, driveSpeed, 30);      // move towards the beacons
-      //driveTrain.GoLeftSide(1, driveSpeed);          // turn left a little more
-      //driveTrain.GoInches(54, driveSpeed,30);       // now drive all the way to the beacon
-      driveTrain.GoInches(48,.50,30);          // go backwards by setting inches -negative
-      driveTrain.PivotTurn(90,.5,30);
-   // driveTrain.PivotTurn(90,.5,30);
+      driveTrain.GoInches(34, driveSpeed, 30);      // go forward inches, power
+      driveTrain.GoLeftSide(2, driveSpeed);         // start turning left and stay away from line
+      driveTrain.GoInches(10, driveSpeed, 30);      // move towards the beacons
+      driveTrain.GoLeftSide(1, driveSpeed);          // turn left a little more
+      driveTrain.GoInches(58, driveSpeed,30);       // now drive all the way to the beacon
+      //driveTrain.GoInches(-10,.50,30);      // go backwards by setting inches -negative
 
     //beaconPush.dropClimbers();
    /*

@@ -34,10 +34,13 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
+import edu.fpms.faltech.AutoBlue1;
+import edu.fpms.faltech.AutoRed1;
 import edu.fpms.faltech.DriveTrainOpMode2;
 import edu.fpms.faltech.DriveTrainOpMode5;
 import edu.fpms.faltech.FaltechTeleop1v3;
 import edu.fpms.faltech.FaltechTeleop1v4;
+import edu.fpms.faltech.FaltechTeleop1v5;
 import edu.fpms.faltech.TestServo2;
 
 /**
@@ -66,14 +69,14 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("TestAuto2",TestAuto2.class);
     manager.register("DriveTrainOpmode2", DriveTrainOpMode2.class);
     manager.register("DriveTrainOpmode5", DriveTrainOpMode5.class);
-    manager.register("TestServo2", TestServo2.class);
+    //manager.register("TestServo2", TestServo2.class);
     //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
     //manager.register("DriveTrainOpMode", DriveTrainOpMode.class);
     manager.register("FaltechTeleop1v3",FaltechTeleop1v3.class);
     manager.register("FaltechTeleop1v4",FaltechTeleop1v4.class);
-
-
-
+    manager.register("FaltechTeleop1v5",FaltechTeleop1v5.class);
+    manager.register("AutoRed1",AutoRed1.class);
+    manager.register("AutoBlue1",AutoBlue1.class);
     //manager.register("MR Gyro Test", MRGyroTest.class);
 
     //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
