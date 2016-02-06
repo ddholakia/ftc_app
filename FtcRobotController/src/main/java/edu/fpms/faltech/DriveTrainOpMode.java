@@ -29,16 +29,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package edu.fpms.faltech;
+package edu.fpms.faltech.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 
+/*
 public class DriveTrainOpMode extends LinearOpMode {
   DriveTrain driveTrain;
-  Lift lift;
-  BeaconPush beaconPush;
+  //Lift lift;
+  //BeaconPush beaconPush;
 
   @Override
   public void runOpMode() throws InterruptedException {
@@ -59,7 +60,7 @@ public class DriveTrainOpMode extends LinearOpMode {
     lift.GoHigh();
     sleep(3000);
     lift.GoDown();
-*/
+
 
    // beaconPush.shiftRight();
 
@@ -67,5 +68,4 @@ public class DriveTrainOpMode extends LinearOpMode {
           beaconPush.leftBeaconIsRed();
       }
 
-  }
-}
+*/

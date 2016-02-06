@@ -33,6 +33,7 @@ package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+/*
 public class DepositPeepsRed extends LinearOpMode {
   DriveTrain2 driveTrain;
   MoveElevator elevator;
@@ -60,7 +61,6 @@ public class DepositPeepsRed extends LinearOpMode {
     driveTrain.GoLeftSide(90,50);
     double DiagonalInches = 1;
     driveTrain.GoInches(DiagonalInches,.5,20);
-
-
   }
 }
+*/

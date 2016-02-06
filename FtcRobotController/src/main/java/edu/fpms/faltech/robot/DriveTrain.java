@@ -1,4 +1,4 @@
-package edu.fpms.faltech;
+package edu.fpms.faltech.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,29 +17,29 @@ import java.util.InputMismatchException;
 public class DriveTrain {
 
     final static int pulsesPerRevolution = 1680;
-    final static double tireCircumference = 15.7; //inches
+    final static double tireCircumference = 12.56; //inches
 
     private LinearOpMode opMode;
     private HardwareMap hardwareMap = new HardwareMap();
-    private DcMotorController driveTrainMotorController;
-    private DcMotor leftMotors; // two motors wired together
-    private DcMotor rightMotors; // two motors wired together
+    //private DcMotorController driveTrainMotorController;
+    private DcMotor leftMotor; // two motors wired together
+    private DcMotor rightMotor; // two motors wired together
 
     private GyroSensor gyroSensor;
-    private int heading;
+   // private int heading;
 
     public DriveTrain(LinearOpMode opMode) throws InterruptedException{
         this.opMode = opMode;
         opMode.telemetry.addData("mtthd: ", "DriveTrain constructor");
         // get hardware mappings
-        leftMotors = opMode.hardwareMap.dcMotor.get("leftMotors");
-        rightMotors = opMode.hardwareMap.dcMotor.get("rightMotors");
+        leftMotor = opMode.hardwareMap.dcMotor.get("leftMotor");
+        rightMotor = opMode.hardwareMap.dcMotor.get("rightMotor");
 
-        leftMotors.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightMotors.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        leftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 
-        rightMotors.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
         gyroSensor = opMode.hardwareMap.gyroSensor.get("gyroSensor");
 
         // calibrate the gyro.
@@ -52,42 +52,34 @@ public class DriveTrain {
         opMode.waitForNextHardwareCycle();
     }
 
-    private void resetEncoders()throws InterruptedException {
-
-        leftMotors.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightMotors.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
-        opMode.waitForNextHardwareCycle();
-    }
-
     private void stopMotors(){
-        leftMotors.setPower(0);
-        rightMotors.setPower(0);
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
     }
 
     private int getEncoderAverage(){
-        return (leftMotors.getCurrentPosition() + rightMotors.getCurrentPosition()) / 2;
+        return (leftMotor.getCurrentPosition() + rightMotor.getCurrentPosition()) / 2;
     }
 
-    private boolean Go(int position, double power, int timeout) throws InterruptedException {
+    private boolean Go(int distance, double power, int timeout) throws InterruptedException {
         ElapsedTime timer = new ElapsedTime();
 
        // resetEncoders();
 
-        leftMotors.setPower(power);
-        rightMotors.setPower(power);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
 
         int currentPosition = getEncoderAverage();
 
         if(power>0) {
-            int targetPosition = currentPosition + position;
+            int targetPosition = currentPosition + distance;
             while ((currentPosition < targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
                 opMode.telemetry.addData("Pos: ", currentPosition);
                 opMode.telemetry.addData("TPos: ", targetPosition);
             }
         } else if (power<0) {
-            int targetPosition = currentPosition - position;
+            int targetPosition = currentPosition - distance;
             while ((currentPosition > targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
                 opMode.telemetry.addData("Pos: ", currentPosition);
@@ -103,28 +95,19 @@ public class DriveTrain {
     }
 
     private void PivotRight(double power){
-        leftMotors.setPower(power);
-        rightMotors.setPower(-power);
+        leftMotor.setPower(power);
+        rightMotor.setPower(-power);
     }
 
     private void PivotLeft(double power){
-        leftMotors.setPower(-power);
-        rightMotors.setPower(power);
+        leftMotor.setPower(-power);
+        rightMotor.setPower(power);
     }
 
     public boolean GoInches(double inches, double power, int seconds) throws InterruptedException {
         opMode.telemetry.addData("Cmd: ", "GoInches");
-        int position = (int)((Math.abs(inches) / tireCircumference) * pulsesPerRevolution);
-        return Go(position,power,seconds);
-    }
-
-    public void GoRightSide()throws InterruptedException{
-        opMode.telemetry.addData("Mthd: ", "GoRightSide");
-
-        ElapsedTime timer = new ElapsedTime();
-        rightMotors.setPower(.5);
-        while(timer.time() < 10){}
-        stopMotors();
+        int distance = (int)((Math.abs(inches) / tireCircumference) * pulsesPerRevolution);
+        return Go(distance,power,seconds);
     }
 
     public boolean PivotTurn(int degrees, double power, int seconds) throws InterruptedException {
@@ -134,7 +117,7 @@ public class DriveTrain {
         Thread.sleep(500);
         gyroSensor.resetZAxisIntegrator(); // set heading to zero
         opMode.waitForNextHardwareCycle();
-        heading = 0;
+        int heading = 0;
 
         opMode.telemetry.addData("  THdg: ", degrees);
 

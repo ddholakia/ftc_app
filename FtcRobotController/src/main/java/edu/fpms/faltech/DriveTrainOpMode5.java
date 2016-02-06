@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+/*
 public class DriveTrainOpMode5 extends LinearOpMode {
   DriveTrain2 driveTrain;
   MoveElevator elevator;
@@ -61,8 +61,6 @@ public class DriveTrainOpMode5 extends LinearOpMode {
       //driveTrain.GoInches(54, driveSpeed, 30);       // now drive all the way to the beacon
       elevator.moveit(2,.5, 30);
       // driveTrain.GoInches(-10,.50,30);           // go backwards by setting inches -negative
-
-
-
   }
 }
+*/

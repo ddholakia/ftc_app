@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+/*
 public class AutoRed1 extends LinearOpMode {
   DriveTrain2 driveTrain;
   MoveElevator elevator;
@@ -64,3 +64,4 @@ public class AutoRed1 extends LinearOpMode {
 
   }
 }
+*/

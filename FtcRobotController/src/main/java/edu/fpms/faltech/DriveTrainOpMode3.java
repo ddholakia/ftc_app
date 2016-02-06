@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+/*
 public class DriveTrainOpMode3 extends LinearOpMode {
   DriveTrain2 driveTrain;
   Lift lift;
@@ -62,3 +62,4 @@ public class DriveTrainOpMode3 extends LinearOpMode {
 
   }
 }
+*/
