@@ -85,7 +85,7 @@ public class K9TankDrive extends OpMode {
 	 */
 	@Override
 	public void init() {
-		/*
+	/*
 		 * Use the hardwareMap to get the dc motors and servos by name. Note
 		 * that the names of the devices must match the names used when you
 		 * configured your robot and created the configuration file.
@@ -104,6 +104,7 @@ public class K9TankDrive extends OpMode {
 		motorRight = hardwareMap.dcMotor.get("motor_2");
 		motorLeft = hardwareMap.dcMotor.get("motor_1");
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+
 
 		arm = hardwareMap.servo.get("servo_1");
 		claw = hardwareMap.servo.get("servo_6");
