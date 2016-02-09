@@ -20,10 +20,8 @@ public class DriveTrain {
     final static double tireCircumference = 12.56; //inches
 
     private LinearOpMode opMode;
-    private HardwareMap hardwareMap = new HardwareMap();
-    //private DcMotorController driveTrainMotorController;
-    private DcMotor leftMotor; // two motors wired together
-    private DcMotor rightMotor; // two motors wired together
+    private DcMotor leftMotor;
+    private DcMotor rightMotor;
 
     private GyroSensor gyroSensor;
    // private int heading;
@@ -38,8 +36,8 @@ public class DriveTrain {
         leftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
+
         gyroSensor = opMode.hardwareMap.gyroSensor.get("gyroSensor");
 
         // calibrate the gyro.
@@ -71,14 +69,14 @@ public class DriveTrain {
 
         int currentPosition = getEncoderAverage();
 
-        if(power>0) {
+        if(power>0) { //go forward
             int targetPosition = currentPosition + distance;
             while ((currentPosition < targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
                 opMode.telemetry.addData("Pos: ", currentPosition);
                 opMode.telemetry.addData("TPos: ", targetPosition);
             }
-        } else if (power<0) {
+        } else if (power<0) { //go backward
             int targetPosition = currentPosition - distance;
             while ((currentPosition > targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
