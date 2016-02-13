@@ -26,18 +26,21 @@ public class Hopper {
         hopperServo = opMode.hardwareMap.servo.get("HopperSrv");
     }
 
+    //goLeft
     public void goLeft(int milliseconds) throws InterruptedException {
         hopperServo.setPosition(0);
         wait(milliseconds);
         stop();
     }
 
+    //goRight
     public void goRight(int milliseconds)throws InterruptedException {
         hopperServo.setPosition(1);
-        wait(milliseconds * 1000);
+        wait(milliseconds);
         stop();
     }
 
+    //stop
     private void stop(){
         hopperServo.setPosition(.5);
     }

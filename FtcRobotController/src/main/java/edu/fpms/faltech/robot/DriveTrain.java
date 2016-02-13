@@ -16,7 +16,7 @@ import java.util.InputMismatchException;
 
 public class DriveTrain {
 
-    final static int pulsesPerRevolution = 1680;
+    final static int pulsesPerRevolution = 1680 / 2;
     final static double tireCircumference = 12.56; //inches
 
     private LinearOpMode opMode;
@@ -25,6 +25,8 @@ public class DriveTrain {
 
     private GyroSensor gyroSensor;
    // private int heading;
+   public Churro_Grabber churro_grabber ;
+
 
     public DriveTrain(LinearOpMode opMode) throws InterruptedException{
         this.opMode = opMode;
@@ -32,6 +34,8 @@ public class DriveTrain {
         // get hardware mappings
         leftMotor = opMode.hardwareMap.dcMotor.get("leftMotor");
         rightMotor = opMode.hardwareMap.dcMotor.get("rightMotor");
+
+        churro_grabber = new Churro_Grabber(opMode);
 
         leftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -50,11 +54,13 @@ public class DriveTrain {
         opMode.waitForNextHardwareCycle();
     }
 
+    //stopMotors
     private void stopMotors(){
         leftMotor.setPower(0);
         rightMotor.setPower(0);
     }
 
+    // getEncoderAverage
     private int getEncoderAverage(){
         return (leftMotor.getCurrentPosition() + rightMotor.getCurrentPosition()) / 2;
     }
@@ -91,23 +97,24 @@ public class DriveTrain {
         }
         return true;
     }
-
+    //PivotRight
     private void PivotRight(double power){
         leftMotor.setPower(power);
         rightMotor.setPower(-power);
     }
-
+    //PivotLeft
     private void PivotLeft(double power){
         leftMotor.setPower(-power);
         rightMotor.setPower(power);
     }
-
+    //GoInches
     public boolean GoInches(double inches, double power, int seconds) throws InterruptedException {
         opMode.telemetry.addData("Cmd: ", "GoInches");
-        int distance = (int)((Math.abs(inches) / tireCircumference) * pulsesPerRevolution);
+        int distance = (int)(((Math.abs(inches) / tireCircumference) * pulsesPerRevolution));
         return Go(distance,power,seconds);
     }
 
+    //Pivot Turn
     public boolean PivotTurn(int degrees, double power, int seconds) throws InterruptedException {
         opMode.telemetry.addData("Mthd: ", "PivotTurn");
         ElapsedTime timer = new ElapsedTime();
@@ -143,5 +150,12 @@ public class DriveTrain {
             stopMotors();
         }
         return true;
+    }
+
+    //Gyro Test
+    public void GyroTest(){
+        while(true) {
+            opMode.telemetry.addData("Heading", gyroSensor.getHeading());
+        }
     }
 }

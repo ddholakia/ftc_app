@@ -33,19 +33,21 @@ public class Arms {
         hopper = new Hopper(opMode);
     }
 
-
+        //Extend
     public void Extend(int seconds)throws InterruptedException{
         MoveArms(.5);
         wait(seconds * 1000);
         MoveArms(0);
     }
+
+    //Retract
     public void Retract(int seconds)throws InterruptedException {
         MoveArms(-.25);
         wait(seconds * 1000);
         MoveArms(0);
     }
 
-
+    //Elevator up
     public void Up(int seconds)throws InterruptedException{
         Elevator.setPower(.5);
         wait(seconds * 1000);

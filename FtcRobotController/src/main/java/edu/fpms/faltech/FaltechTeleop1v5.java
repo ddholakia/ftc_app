@@ -27,7 +27,13 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Thanks to Brendan Hollaway, from 6209 Venom
+
+
+*/
 
 package edu.fpms.faltech;
 
@@ -40,29 +46,34 @@ import com.qualcomm.robotcore.hardware.Servo;
  * TeleOp Mode
  * <p>
  * Enables control of the robot via the gamepad
+ *
  */
 public class FaltechTeleop1v5 extends OpMode {
 	int HopperShuffleValue = 1;
 	double SpinnersValue = 0;
-	DcMotor LiftRight;
-	DcMotor LiftLeft;
+    boolean isReversed = false;
+    boolean btn_pressed = false;
+    long timer = 0;
+    
+    //Motors
+	DcMotor ArmRight;
+	DcMotor ArmLeft;
 	DcMotor MtrsLeft;
 	DcMotor MtrsRight;
 	DcMotor Elevator;
 	DcMotor Spinners;
-
-	// Hopper variables
-	boolean hopperFlag = false;
-	Servo HopperShuffle;
-	final static double HOPPER_SPEED  = 0.1;
-	final static double HOPPER_MIN_RANGE = 0.0;
-	final static double HOPPER_MAX_RANGE = 1.0;
-	final static double HOPPER_STOP_RANGE = 0.5;
-
-	// position of the hopper servo.
-	double hopperPosition;
-	int MAX_ELEVATOR_VALUE= 4000 ;
-	int elevatorStartPosition;
+    
+    //Servos
+    Servo ChurroGrab1;
+    Servo ChurroGrab2;
+    Servo HopperSrv;
+    
+    //Motor Power Settings
+    float MtrsLeftPower;
+    float MtrsRightPower;
+    float ArmRightPower;
+    float ArmLeftPower;
+	
 
 	public FaltechTeleop1v5() {
 
@@ -76,15 +87,23 @@ public class FaltechTeleop1v5 extends OpMode {
 	 */
 	@Override
 	public void init() {
-		LiftRight = hardwareMap.dcMotor.get("LiftRight");
-		LiftLeft = hardwareMap.dcMotor.get("LiftLeft");
+		ArmRight = hardwareMap.dcMotor.get("ArmRight");
+		ArmLeft = hardwareMap.dcMotor.get("ArmLeft");
 		MtrsLeft = hardwareMap.dcMotor.get("MtrsLeft");
 		MtrsRight = hardwareMap.dcMotor.get("MtrsRight");
+        MtrsRight.setDirection(DcMotor.Direction.REVERSE);
 		Spinners = hardwareMap.dcMotor.get("Spinners");
 		Elevator = hardwareMap.dcMotor.get("Elevator");
-		HopperShuffle = hardwareMap.servo.get("HopperShuffle");
+		HopperSrv = hardwareMap.servo.get("HopperSrv");
+        ChurroGrab1 = hardwareMap.servo.get("ChurroGrab1");
+        ChurroGrab2 = hardwareMap.servo.get("ChurroGrab2");
 
-	}
+
+        //Set Churro Grabber's Position
+        ChurroGrab1.setPosition(1);
+        ChurroGrab2.setPosition(0);
+    }
+
 
 	/*
 	 * This method will be called repeatedly in a loop
@@ -93,84 +112,83 @@ public class FaltechTeleop1v5 extends OpMode {
 	 */
 	@Override
 	public void loop() {
-		float MtrsLeftFloat = -gamepad1.left_stick_y;
-		float MtrsRightFloat = gamepad1.right_stick_y;
-		float LiftRightFloat = gamepad2.right_stick_y;
-		float LiftLeftFloat = -gamepad2.right_stick_y;
+
+        //Drive Train
+        this.telemetry.addData("isReversed",isReversed);
+        if(System.nanoTime() > timer)
+            btn_pressed = false;
+        if (!btn_pressed && gamepad1.b) { // Toggle Backwards Driving
+            isReversed = !isReversed;
+            timer = System.nanoTime() + (long)(0.5 * Math.pow(10, 9));
+            btn_pressed = true;
+        }
+        if (isReversed) {
+            MtrsLeftPower = -gamepad1.left_stick_y;
+            MtrsRightPower = -gamepad1.right_stick_y;
+        }
+        else {
+            MtrsLeftPower = gamepad1.left_stick_y;
+            MtrsRightPower = gamepad1.right_stick_y;
+        }
+
+        //Arms
+        if (gamepad2.right_trigger > 50) { //If RT is pressed, full-power mode
+            ArmRightPower = gamepad2.right_stick_y;
+            ArmLeftPower = gamepad2.right_stick_y;
+        }
+		else if (gamepad2.right_trigger <= 50 ) { //IF RT is not pressed, half-power mode
+            ArmRightPower = gamepad2.right_stick_y / 2;
+            ArmLeftPower = gamepad2.right_stick_y / 2;
+        }
+
+        //Elevator
 		float ElevatorFloat = gamepad2.left_stick_y;
 
-
-		MtrsRight.setPower(MtrsRightFloat);
-		MtrsLeft.setPower(MtrsLeftFloat);
-		LiftLeft.setPower(LiftLeftFloat);
-		LiftRight.setPower(LiftRightFloat);
+        //setting motors power
+		MtrsRight.setPower(MtrsRightPower);
+		MtrsLeft.setPower(MtrsLeftPower);
+		ArmLeft.setPower(ArmLeftPower);
+		ArmRight.setPower(ArmRightPower);
 		Elevator.setPower(ElevatorFloat);
 
+        //Hoppers
 		if (gamepad2.left_bumper || gamepad2.right_bumper){
 			if (gamepad2.left_bumper) {
-				HopperShuffle.setPosition(0);
-			} else {//rightbumber
-				HopperShuffle.setPosition(1);
+				HopperSrv.setPosition(0);
+			} else {//rightbumper
+				HopperSrv.setPosition(1);
 			}
 		} else if (!gamepad2.left_bumper || !gamepad2.right_bumper){
-			HopperShuffle.setPosition(.5);
-		}
-		if (gamepad1.left_bumper || gamepad1.right_bumper){
-			if (gamepad1.left_bumper) {
-				Spinners.setPower(1);
-			} else {//rightbumber
-				Spinners.setPower(-1);
-
-			}
-		} else if (!gamepad2.left_bumper || !gamepad2.right_bumper){
-			Spinners.setPower(0);
-		}
-		/*if (gamepad1.left_bumper) {
-			double SpinnersValue = -1;
-			Spinners.setPower(SpinnersValue);
-		}
-		//if (gamepad1.right_bumper){
-		//	double SpinnersValue = 1;
-		//	Spinners.setPower(SpinnersValue);
-		//}
-
-		else if (!gamepad1.left_bumper || !gamepad1.right_bumper){
-			double SpinnersValue = 0;
-			Spinners.setPower(SpinnersValue);
-		}
-		*/
-
-/*
-		//  hopper To the left
-		if (gamepad2.left_bumper) {			hopperPosition -= HOPPER_SPEED;
-			hopperFlag = true;
-			telemetry.addData(" Left  button hopperPosition =  ",  Double.toString(hopperPosition));
-
-		}
-		// hopper to the right
-		if (gamepad2.right_bumper) {
-			hopperPosition += HOPPER_SPEED;
-			hopperFlag = true;
-			telemetry.addData(" Right button hopperPosition =  ",  Double.toString(hopperPosition) );
-		}
-		// hopper Stop
-		if (gamepad2.b) {
-			hopperPosition = HOPPER_STOP_RANGE;
-			hopperFlag = true;
-			telemetry.addData(" Stop button hopperPosition =  ", Double.toString(hopperPosition));
+			HopperSrv.setPosition(.5);
 		}
 
-		// If a hopper key was pressed then send it to the hopper servo
-		if ( hopperFlag ){
-			// Prevent errors by limiting it to the lower and upper ranges
-			hopperPosition = Range.clip(hopperPosition, HOPPER_MIN_RANGE, HOPPER_MAX_RANGE);
-			HopperShuffle.setPosition(hopperPosition);
-			hopperFlag = false;			// don't come here again until a hopper key is pressed
-		}
-		else {
-			HopperShuffle.setPosition(HOPPER_STOP_RANGE);
-		}
-	*/
+        //Churro Grabbers
+        if (gamepad1.left_bumper || gamepad1.right_bumper){  //Churro Grabbers
+            if (gamepad1.right_bumper) { //disengadge Churro Grabbers
+                ChurroGrab1.setPosition(0);
+                ChurroGrab2.setPosition(1);
+                this.telemetry.addData("ChurroGrabbers"," Right");
+            } else if (gamepad1.left_bumper){ //engadge Churro Grabbers
+                ChurroGrab1.setPosition(1);
+                ChurroGrab2.setPosition(0);
+                this.telemetry.addData("ChurroGrabbers"," Left");
+            }
+        }
+
+        //Spinners
+        if ((gamepad1.right_trigger > .50)||(gamepad1.left_trigger > .50)) {
+            if (gamepad1.right_trigger > .50) { //If Right trigger then collect
+                Spinners.setPower(-1.0);
+                this.telemetry.addData("Spinners","In");
+        }
+            else if (gamepad1.left_trigger > .50) { //if left trigger then flush
+                Spinners.setPower(1.0);
+                this.telemetry.addData("Spinners","Out");
+            }
+
+        } else if (!(gamepad1.right_trigger > .50)|| !(gamepad1.left_trigger > 50)){
+            Spinners.setPower(0);
+        }
 		telemetry.addData("Right Speed", -gamepad1.right_stick_y);
 		telemetry.addData("Left Speed", -gamepad1.left_stick_y);
 
