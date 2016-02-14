@@ -16,7 +16,7 @@ public class Elevator {
 
     private long position;
     private DcMotor elevatorMotor;
-    private int rotation;
+    private double rotation;
 
 
     public Elevator(LinearOpMode opMode) throws InterruptedException {
@@ -31,7 +31,7 @@ public class Elevator {
     }
 
     //Elevator Up
-    public boolean Up(int inches, int timeout) throws InterruptedException {
+    public boolean UpInch(int inches, int timeout) throws InterruptedException {
         long targetPosition = position + (960 * inches);
         if (inches > 0) {
             elevatorMotor.setPower(1);
@@ -42,10 +42,13 @@ public class Elevator {
             }
             elevatorMotor.setPower(0);
         }
-        if (position >= targetPosition ){
+        if (position >= targetPosition) {
             return true;
-        } else{
+        } else {
             return false;
         }
+    }
+    public void UpDegrees(int degrees){
+        rotation = (Math.sin(degrees) * 8);
     }
 }

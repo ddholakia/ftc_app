@@ -34,6 +34,7 @@ public class DriveTrain {
         // get hardware mappings
         leftMotor = opMode.hardwareMap.dcMotor.get("leftMotor");
         rightMotor = opMode.hardwareMap.dcMotor.get("rightMotor");
+        gyroSensor = opMode.hardwareMap.gyroSensor.get("gyroSensor");
 
         churro_grabber = new Churro_Grabber(opMode);
 
@@ -42,15 +43,13 @@ public class DriveTrain {
 
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        gyroSensor = opMode.hardwareMap.gyroSensor.get("gyroSensor");
-
         // calibrate the gyro.
         gyroSensor.calibrate();
         // make sure the gyro is calibrated.
         while (gyroSensor.isCalibrating()) {
             Thread.sleep(50);
         }
-
+        gyroSensor.resetZAxisIntegrator();
         opMode.waitForNextHardwareCycle();
     }
 
@@ -99,11 +98,13 @@ public class DriveTrain {
     }
     //PivotRight
     private void PivotRight(double power){
+        opMode.telemetry.addData("Pivot Right Power", power);
         leftMotor.setPower(power);
         rightMotor.setPower(-power);
     }
     //PivotLeft
     private void PivotLeft(double power){
+        opMode.telemetry.addData("Pivot Left Power", power);
         leftMotor.setPower(-power);
         rightMotor.setPower(power);
     }
@@ -118,34 +119,44 @@ public class DriveTrain {
     public boolean PivotTurn(int degrees, double power, int seconds) throws InterruptedException {
         opMode.telemetry.addData("Mthd: ", "PivotTurn");
         ElapsedTime timer = new ElapsedTime();
-
+        if((degrees > 359) || (degrees < -359)){
+            opMode.telemetry.addData("Error", "Incorrect Degree Value" + degrees);
+            return false;
+        }
         Thread.sleep(500);
-        gyroSensor.resetZAxisIntegrator(); // set heading to zero
+        gyroSensor.resetZAxisIntegrator();// set heading to zero
+        while (gyroSensor.isCalibrating()) {
+            Thread.sleep(50);
+        }
         opMode.waitForNextHardwareCycle();
+
         int heading = 0;
 
-        opMode.telemetry.addData("  THdg: ", degrees);
 
         if (degrees > 0) { // right turn
+            opMode.telemetry.addData(" Right Turn ", degrees);
             PivotRight(power);
             while (heading < degrees) {
                 if (timer.time() > seconds) {
                     stopMotors();
                     return false;
                 }
-                opMode.telemetry.addData("  CHdg: ", heading);
                 heading = gyroSensor.getHeading();
+                opMode.telemetry.addData("  Heading: ", heading);
+
             }
             stopMotors();
         } else if (degrees < 0) { // left turn
+            opMode.telemetry.addData(" Left Turn ", degrees);
             PivotLeft(power);
-            while (heading > degrees) {
+
+            while (heading > (360 + degrees)) {
                 if (timer.time() > seconds) {
                     stopMotors();
                     return false;
                 }
-                opMode.telemetry.addData("  CHdg: ", heading);
                 heading = gyroSensor.getHeading();
+                opMode.telemetry.addData("  Heading: ", heading);
             }
             stopMotors();
         }

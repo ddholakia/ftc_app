@@ -89,8 +89,8 @@ public class FaltechTeleop1v5 extends OpMode {
 	public void init() {
 		ArmRight = hardwareMap.dcMotor.get("ArmRight");
 		ArmLeft = hardwareMap.dcMotor.get("ArmLeft");
-		MtrsLeft = hardwareMap.dcMotor.get("MtrsLeft");
-		MtrsRight = hardwareMap.dcMotor.get("MtrsRight");
+		MtrsLeft = hardwareMap.dcMotor.get("leftMotor");
+		MtrsRight = hardwareMap.dcMotor.get("rightMotor");
         MtrsRight.setDirection(DcMotor.Direction.REVERSE);
 		Spinners = hardwareMap.dcMotor.get("Spinners");
 		Elevator = hardwareMap.dcMotor.get("Elevator");

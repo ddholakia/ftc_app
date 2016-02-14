@@ -46,16 +46,22 @@ public class RobotTestv1 extends LinearOpMode {
     robot = new Robot(this);
     // wait for the start button to be pressed
     waitForStart();
-    robot.driveTrain.GoInches(10,.5,30);//Testing Drive
+
+   //robot.driveTrain.GyroTest();
+
+
+   // robot.driveTrain.GoInches(10,.5,30);//Testing Drive
     robot.driveTrain.PivotTurn(30,.5,30);
-    robot.driveTrain.GoInches(10,-.5,30);
-    robot.driveTrain.PivotTurn(10,-.5,30);
-    /*
-    robot.arms.hopper.goLeft(5000);/Testing Hopper
+   // robot.driveTrain.GoInches(10,-.5,30)
+    robot.driveTrain.PivotTurn(-30,.5,30);
+
+
+   /* robot.arms.hopper.goLeft(5000);/Testing Hopper
     wait(500);
     robot.arms.hopper.goRight(10000);
     wait(500);
     robot.arms.hopper.goLeft(5000);
     */
+
   }
 }

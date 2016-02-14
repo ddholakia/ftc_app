@@ -23,4 +23,10 @@ public class Churro_Grabber {
         ChurroGrab1 = opMode.hardwareMap.servo.get("ChurroGrab1");
         ChurroGrab2 = opMode.hardwareMap.servo.get("ChurroGrab2");
     }
+
+    //set the Churro Grabber's position
+    public void setChurroGrabers(int position){
+        ChurroGrab1.setPosition(position);
+        ChurroGrab1.setPosition(position);
+    }
 }

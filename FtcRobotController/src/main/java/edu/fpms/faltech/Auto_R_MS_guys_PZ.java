@@ -53,12 +53,12 @@ public class Auto_R_MS_guys_PZ extends LinearOpMode {
         robot.driveTrain.GoInches(85, -.5, 5);
         robot.driveTrain.PivotTurn(-30, .5, 3);
         robot.driveTrain.GoInches(41, .5, 6);
-        robot.arms.Up(1);
+        robot.arms.elevator.UpDegrees(30);
         robot.arms.hopper.goLeft(4000);
         robot.arms.hopper.goRight(4000);
 
 
-        robot.arms.Down(1);
+        robot.arms.elevator.UpDegrees(0);
         robot.driveTrain.GoInches(34, .5, 3);
     }
 }

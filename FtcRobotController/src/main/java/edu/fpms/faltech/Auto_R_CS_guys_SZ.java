@@ -51,9 +51,9 @@ public class Auto_R_CS_guys_SZ extends LinearOpMode {
         robot.driveTrain.GoInches(174,.5,15);
         robot.driveTrain.PivotTurn(30, .5, 3);
         robot.driveTrain.GoInches(44,-.5,5);
-        robot.arms.Up(1);
+        robot.arms.elevator.UpDegrees(30);
         robot.arms.hopper.goLeft(4000);
         robot.arms.hopper.goRight(4000);
-        robot.arms.Down(1);
+        robot.arms.elevator.UpDegrees(0);
     }
 }
