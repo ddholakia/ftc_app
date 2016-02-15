@@ -50,18 +50,23 @@ public class RobotTestv1 extends LinearOpMode {
    //robot.driveTrain.GyroTest();
 
 
-   // robot.driveTrain.GoInches(10,.5,30);//Testing Drive
-    robot.driveTrain.PivotTurn(30,.5,30);
-   // robot.driveTrain.GoInches(10,-.5,30)
-    robot.driveTrain.PivotTurn(-30,.5,30);
+      robot.driveTrain.GoInches(15,1,30);//Testing Drive
+      robot.driveTrain.GoInches(15,-1,30);
+      //robot.driveTrain.PivotTurn(45, .5, 5);
+      //robot.driveTrain.PivotTurn(-45, .5, 5);
 
 
-   /* robot.arms.hopper.goLeft(5000);/Testing Hopper
-    wait(500);
-    robot.arms.hopper.goRight(10000);
-    wait(500);
-    robot.arms.hopper.goLeft(5000);
+    /*
+      robot.arms.hopper.goLeft(5000);//Testing Hopper
+      wait(500);
+      robot.arms.hopper.goRight(10000);
+      wait(500);
+      robot.arms.hopper.goLeft(5000);
     */
+      robot.climberSavers.ClimberStartPosition();
+      robot.climberSavers.ClimberReleasePosition();
+      robot.climberSavers.ClimberTeleopPosition();
+
 
   }
 }

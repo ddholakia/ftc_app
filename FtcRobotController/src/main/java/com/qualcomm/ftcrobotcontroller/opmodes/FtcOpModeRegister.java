@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 //import edu.fpms.faltech.DriveTrainOpMode2;
 //import edu.fpms.faltech.DriveTrainOpMode5;
 import edu.fpms.faltech.FaltechTeleop1v5;
+import edu.fpms.faltech.RobotTestv1;
 
 /**
  * Register Op Modes
@@ -72,6 +73,7 @@ public class FtcOpModeRegister implements OpModeRegister {
    // manager.register("FaltechTeleop1v3",FaltechTeleop1v3.class);
    // manager.register("FaltechTeleop1v4",FaltechTeleop1v4.class);
     manager.register("FaltechTeleop1v5",FaltechTeleop1v5.class);
+    manager.register("RobotTestv1", RobotTestv1.class);
     //manager.register("MR Gyro Test", MRGyroTest.class);
 
     //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);

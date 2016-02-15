@@ -14,17 +14,25 @@ public class Climber_Savers {
 
     private Servo climberSaverServo;
 
+    private double STARTPOSITION = 1;
+    private double RELEASEPOSITION = 0;
+    private double TELEOPPOSITION = .5;
 
-    public Climber_Savers(LinearOpMode opMode) throws InterruptedException{
+    public Climber_Savers(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         opMode.telemetry.addData("mtthd: ", "Climber_Savers constructor");
         // get hardware mappings
         climberSaverServo = opMode.hardwareMap.servo.get("ClimberSaverServo");
+        climberSaverServo.setPosition(STARTPOSITION);
     }
 
-
-    //stop
-    private void SetClimberSaver(int position){
-        climberSaverServo.setPosition(position);
+    public void ClimberStartPosition() {
+        climberSaverServo.setPosition(STARTPOSITION);
+    }
+    public void ClimberReleasePosition() {
+        climberSaverServo.setPosition(RELEASEPOSITION);
+    }
+    public void ClimberTeleopPosition() {
+        climberSaverServo.setPosition(TELEOPPOSITION);
     }
 }

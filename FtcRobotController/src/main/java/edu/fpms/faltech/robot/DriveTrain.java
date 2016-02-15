@@ -130,12 +130,10 @@ public class DriveTrain {
         }
         opMode.waitForNextHardwareCycle();
 
-        int heading = 0;
-
-
         if (degrees > 0) { // right turn
             opMode.telemetry.addData(" Right Turn ", degrees);
             PivotRight(power);
+            int heading = 0;
             while (heading < degrees) {
                 if (timer.time() > seconds) {
                     stopMotors();
@@ -149,16 +147,18 @@ public class DriveTrain {
         } else if (degrees < 0) { // left turn
             opMode.telemetry.addData(" Left Turn ", degrees);
             PivotLeft(power);
-
-            while (heading > (360 + degrees)) {
+            int heading = 359;
+            while ((heading > (360 + degrees)) || (heading == 0)) {
                 if (timer.time() > seconds) {
                     stopMotors();
                     return false;
                 }
+
                 heading = gyroSensor.getHeading();
                 opMode.telemetry.addData("  Heading: ", heading);
             }
             stopMotors();
+
         }
         return true;
     }

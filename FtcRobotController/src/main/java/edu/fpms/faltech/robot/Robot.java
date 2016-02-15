@@ -15,6 +15,7 @@ public class Robot {
     public DriveTrain driveTrain;
     public Arms arms;
     public Collector collector;
+    public Climber_Savers climberSavers;
 
     public Robot(LinearOpMode opMode) throws InterruptedException{
         this.opMode = opMode;
@@ -24,6 +25,7 @@ public class Robot {
         driveTrain = new DriveTrain(opMode);
         arms = new Arms(opMode);
         collector = new Collector(opMode);
+        climberSavers = new Climber_Savers(opMode);
     }
 
 }

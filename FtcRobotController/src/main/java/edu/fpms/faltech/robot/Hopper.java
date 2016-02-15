@@ -24,6 +24,7 @@ public class Hopper {
         opMode.telemetry.addData("mtthd: ", "DriveTrain constructor");
         // get hardware mappings
         hopperServo = opMode.hardwareMap.servo.get("HopperSrv");
+        hopperServo.setPosition(.5);
     }
 
     //goLeft
