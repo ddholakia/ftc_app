@@ -15,7 +15,7 @@ public class Collector {
     private DcMotor Spinners;
 
 
-    public Collector(LinearOpMode opMode) throws InterruptedException{
+    public Collector(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         opMode.telemetry.addData("mtthd: ", "Collector constructor");
         // get hardware mappings
@@ -24,17 +24,17 @@ public class Collector {
     }
 
     //Collect
-    public void Collect(){
+    public void Collect() {
         Spinners.setPower(1);
     }
 
     //Flush
-    public void Flush(){
+    public void Flush() {
         Spinners.setPower(-1);
     }
 
     //Stop
-    public void Stop(){
+    public void Stop() {
         Spinners.setPower(0);
     }
 }

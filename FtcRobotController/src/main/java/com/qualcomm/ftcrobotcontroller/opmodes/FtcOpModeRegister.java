@@ -34,10 +34,22 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
-//import edu.fpms.faltech.AutoBlue1;
-//import edu.fpms.faltech.AutoRed1;
-//import edu.fpms.faltech.DriveTrainOpMode2;
-//import edu.fpms.faltech.DriveTrainOpMode5;
+import edu.fpms.faltech.Auto_B_CS_guys_PZ;
+import edu.fpms.faltech.Auto_B_CS_guys_SZ;
+import edu.fpms.faltech.Auto_B_CS_none_PZ;
+import edu.fpms.faltech.Auto_B_CS_none_SZ;
+import edu.fpms.faltech.Auto_B_MS_guys_PZ;
+import edu.fpms.faltech.Auto_B_MS_guys_SZ;
+import edu.fpms.faltech.Auto_B_M_none_PZ;
+import edu.fpms.faltech.Auto_B_M_none_SZ;
+import edu.fpms.faltech.Auto_R_CS_guys_PZ;
+import edu.fpms.faltech.Auto_R_CS_guys_SZ;
+import edu.fpms.faltech.Auto_R_CS_none_PZ;
+import edu.fpms.faltech.Auto_R_CS_none_SZ;
+import edu.fpms.faltech.Auto_R_MS_guys_PZ;
+import edu.fpms.faltech.Auto_R_MS_guys_SZ;
+import edu.fpms.faltech.Auto_R_M_none_PZ;
+import edu.fpms.faltech.Auto_R_M_none_SZ;
 import edu.fpms.faltech.FaltechTeleop1v5;
 import edu.fpms.faltech.RobotTestv1;
 
@@ -46,13 +58,13 @@ import edu.fpms.faltech.RobotTestv1;
  */
 public class FtcOpModeRegister implements OpModeRegister {
 
-  /**
-   * The Op Mode Manager will call this method when it wants a list of all
-   * available op modes. Add your op mode to the list to enable it.
-   *
-   * @param manager op mode manager
-   */
-  public void register(OpModeManager manager) {
+    /**
+     * The Op Mode Manager will call this method when it wants a list of all
+     * available op modes. Add your op mode to the list to enable it.
+     *
+     * @param manager op mode manager
+     */
+    public void register(OpModeManager manager) {
 
     /*
      * register your op modes here.
@@ -62,21 +74,27 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-    manager.register("NullOp",NullOp.class);
-    //manager.register("FaltechTeleop2",FaltechTeleop2.class);
-    //manager.register("TestAuto2",TestAuto2.class);
-   // manager.register("DriveTrainOpmode2", DriveTrainOpMode2.class);
-   // manager.register("DriveTrainOpmode5", DriveTrainOpMode5.class);
-    //manager.register("TestServo2", TestServo2.class);
-    //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
-    //manager.register("DriveTrainOpMode", DriveTrainOpMode.class);
-   // manager.register("FaltechTeleop1v3",FaltechTeleop1v3.class);
-   // manager.register("FaltechTeleop1v4",FaltechTeleop1v4.class);
-    manager.register("FaltechTeleop1v5",FaltechTeleop1v5.class);
-    manager.register("RobotTestv1", RobotTestv1.class);
-    //manager.register("MR Gyro Test", MRGyroTest.class);
-
-    //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
-
-  }
+        manager.register("FaltechTeleop1v5", FaltechTeleop1v5.class);
+       /* manager.register("RobotTestv1", RobotTestv1.class);
+        manager.register("Auto_B_CS_guys_PZ", Auto_B_CS_guys_PZ.class);
+        manager.register("Auto_B_CS_guys_SZ", Auto_B_CS_guys_SZ.class);
+        manager.register("Auto_B_CS_none_PZ", Auto_B_CS_none_PZ.class);
+        manager.register("Auto_B_CS_none_SZ", Auto_B_CS_none_SZ.class);
+        manager.register("Auto_B_M_none_PZ", Auto_B_M_none_PZ.class);
+        manager.register("Auto_B_M_none_SZ", Auto_B_M_none_SZ.class);
+        manager.register("Auto_B_MS_guys_PZ", Auto_B_MS_guys_PZ.class);
+        manager.register("Auto_B_MS_guys_SZ", Auto_B_MS_guys_SZ.class);
+*/
+        manager.register("Auto_R_M_guys_PZ", Auto_R_CS_guys_PZ.class);
+/*
+        manager.register("Auto_R_CS_guys_PZ", Auto_R_CS_guys_PZ.class);
+        manager.register("Auto_R_CS_guys_SZ", Auto_R_CS_guys_SZ.class);
+        manager.register("Auto_R_CS_none_PZ", Auto_R_CS_none_PZ.class);
+        manager.register("Auto_R_CS_none_SZ", Auto_R_CS_none_SZ.class);
+        manager.register("Auto_R_M_none_PZ", Auto_R_M_none_PZ.class);
+        manager.register("Auto_R_M_none_SZ", Auto_R_M_none_SZ.class);
+        manager.register("Auto_R_MS_guys_PZ", Auto_R_MS_guys_PZ.class);
+        manager.register("Auto_R_MS_guys_SZ", Auto_R_MS_guys_SZ.class);
+        */
+    }
 }

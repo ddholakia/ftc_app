@@ -42,13 +42,10 @@ public class Elevator {
             }
             elevatorMotor.setPower(0);
         }
-        if (position >= targetPosition) {
-            return true;
-        } else {
-            return false;
-        }
+        return position >= targetPosition;
     }
-    public void UpDegrees(int degrees){
+
+    public void UpDegrees(int degrees) {
         rotation = (Math.sin(degrees) * 8);
     }
 }

@@ -32,28 +32,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package edu.fpms.faltech;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IrSeekerSensor;
+
 import edu.fpms.faltech.robot.Robot;
+
 /**
  * A simple example of a linear op mode that will approach an IR beacon
  */
 public class RobotTestv1 extends LinearOpMode {
 
-  private Robot robot;
-  @Override
-  public void runOpMode() throws InterruptedException {
-    robot = new Robot(this);
-    // wait for the start button to be pressed
-    waitForStart();
+    private Robot robot;
 
-   //robot.driveTrain.GyroTest();
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot = new Robot(this);
+        // wait for the start button to be pressed
+        waitForStart();
+
+        //robot.driveTrain.GyroTest();
 
 
-      robot.driveTrain.GoInches(15,1,30);//Testing Drive
-      robot.driveTrain.GoInches(15,-1,30);
-      //robot.driveTrain.PivotTurn(45, .5, 5);
-      //robot.driveTrain.PivotTurn(-45, .5, 5);
+        robot.driveTrain.GoInches(15, 1, 30);//Testing Drive
+        robot.driveTrain.GoInches(15, -1, 30);
+        //robot.driveTrain.PivotTurn(45, .5, 5);
+        //robot.driveTrain.PivotTurn(-45, .5, 5);
 
 
     /*
@@ -63,10 +64,10 @@ public class RobotTestv1 extends LinearOpMode {
       wait(500);
       robot.arms.hopper.goLeft(5000);
     */
-      robot.climberSavers.ClimberStartPosition();
-      robot.climberSavers.ClimberReleasePosition();
-      robot.climberSavers.ClimberTeleopPosition();
+        robot.climberSavers.ClimberStartPosition();
+        robot.climberSavers.ClimberReleasePosition();
+        robot.climberSavers.ClimberTeleopPosition();
 
 
-  }
+    }
 }

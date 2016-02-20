@@ -20,7 +20,7 @@ public class Climber_Savers {
 
     public Climber_Savers(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        opMode.telemetry.addData("mtthd: ", "Climber_Savers constructor");
+        opMode.telemetry.addData("ClimberSavers", "constructor");
         // get hardware mappings
         climberSaverServo = opMode.hardwareMap.servo.get("ClimberSaverServo");
         climberSaverServo.setPosition(STARTPOSITION);
@@ -29,9 +29,11 @@ public class Climber_Savers {
     public void ClimberStartPosition() {
         climberSaverServo.setPosition(STARTPOSITION);
     }
+
     public void ClimberReleasePosition() {
         climberSaverServo.setPosition(RELEASEPOSITION);
     }
+
     public void ClimberTeleopPosition() {
         climberSaverServo.setPosition(TELEOPPOSITION);
     }

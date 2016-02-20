@@ -2,10 +2,6 @@ package edu.fpms.faltech.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by ddhol on 12/1/2015.
@@ -19,7 +15,7 @@ public class Hopper {
     private Servo hopperServo;
 
 
-    public Hopper(LinearOpMode opMode) throws InterruptedException{
+    public Hopper(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         opMode.telemetry.addData("mtthd: ", "DriveTrain constructor");
         // get hardware mappings
@@ -35,14 +31,14 @@ public class Hopper {
     }
 
     //goRight
-    public void goRight(int milliseconds)throws InterruptedException {
+    public void goRight(int milliseconds) throws InterruptedException {
         hopperServo.setPosition(1);
         wait(milliseconds);
         stop();
     }
 
     //stop
-    private void stop(){
+    private void stop() {
         hopperServo.setPosition(.5);
     }
 }

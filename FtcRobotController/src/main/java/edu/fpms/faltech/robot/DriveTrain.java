@@ -3,11 +3,8 @@ package edu.fpms.faltech.robot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import java.util.InputMismatchException;
 
 /**
  * Created by ddhol on 12/1/2015.
@@ -24,13 +21,13 @@ public class DriveTrain {
     private DcMotor rightMotor;
 
     private GyroSensor gyroSensor;
-   // private int heading;
-   public Churro_Grabber churro_grabber ;
+    // private int heading;
+    public Churro_Grabber churro_grabber;
 
 
-    public DriveTrain(LinearOpMode opMode) throws InterruptedException{
+    public DriveTrain(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        opMode.telemetry.addData("mtthd: ", "DriveTrain constructor");
+        opMode.telemetry.addData("DriveTrain", "constructor");
         // get hardware mappings
         leftMotor = opMode.hardwareMap.dcMotor.get("leftMotor");
         rightMotor = opMode.hardwareMap.dcMotor.get("rightMotor");
@@ -54,75 +51,84 @@ public class DriveTrain {
     }
 
     //stopMotors
-    private void stopMotors(){
+    private void stopMotors() throws InterruptedException {
+
+        opMode.telemetry.addData("StopMotors", "");
+
         leftMotor.setPower(0);
         rightMotor.setPower(0);
+        opMode.waitForNextHardwareCycle();
     }
 
     // getEncoderAverage
-    private int getEncoderAverage(){
+    private int getEncoderAverage() {
         return (leftMotor.getCurrentPosition() + rightMotor.getCurrentPosition()) / 2;
     }
 
     private boolean Go(int distance, double power, int timeout) throws InterruptedException {
         ElapsedTime timer = new ElapsedTime();
 
-       // resetEncoders();
+        // resetEncoders();
 
         leftMotor.setPower(power);
         rightMotor.setPower(power);
 
         int currentPosition = getEncoderAverage();
 
-        if(power>0) { //go forward
+        if (power > 0) { //go forward
             int targetPosition = currentPosition + distance;
             while ((currentPosition < targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
                 opMode.telemetry.addData("Pos: ", currentPosition);
                 opMode.telemetry.addData("TPos: ", targetPosition);
             }
-        } else if (power<0) { //go backward
+        } else if (power < 0) { //go backward
             int targetPosition = currentPosition - distance;
             while ((currentPosition > targetPosition) && (timer.time() < timeout)) {
                 currentPosition = getEncoderAverage();
                 opMode.telemetry.addData("Pos: ", currentPosition);
                 opMode.telemetry.addData("TPos: ", targetPosition);
+
+
             }
         }
+
         stopMotors();
 
-        if(timer.time() > timeout){
-            return false;
-        }
-        return true;
+        return timer.time() <= timeout;
     }
+
     //PivotRight
-    private void PivotRight(double power){
-        opMode.telemetry.addData("Pivot Right Power", power);
+    private void PivotRight(double power) {
+        opMode.telemetry.addData("PivotRight Power", power);
         leftMotor.setPower(power);
         rightMotor.setPower(-power);
     }
+
     //PivotLeft
-    private void PivotLeft(double power){
-        opMode.telemetry.addData("Pivot Left Power", power);
+    private void PivotLeft(double power) {
+        opMode.telemetry.addData("PivotLeft Power", power);
         leftMotor.setPower(-power);
         rightMotor.setPower(power);
     }
+
     //GoInches
     public boolean GoInches(double inches, double power, int seconds) throws InterruptedException {
-        opMode.telemetry.addData("Cmd: ", "GoInches");
-        int distance = (int)(((Math.abs(inches) / tireCircumference) * pulsesPerRevolution));
-        return Go(distance,power,seconds);
+        opMode.telemetry.addData("GoInches", inches);
+        int distance = (int) (((Math.abs(inches) / tireCircumference) * pulsesPerRevolution));
+        return Go(distance, power, seconds);
     }
 
     //Pivot Turn
     public boolean PivotTurn(int degrees, double power, int seconds) throws InterruptedException {
-        opMode.telemetry.addData("Mthd: ", "PivotTurn");
+        opMode.telemetry.addData("PivotTurn", degrees);
         ElapsedTime timer = new ElapsedTime();
-        if((degrees > 359) || (degrees < -359)){
+
+        if ((degrees > 359) || (degrees < -359)) {
             opMode.telemetry.addData("Error", "Incorrect Degree Value" + degrees);
             return false;
         }
+
         Thread.sleep(500);
         gyroSensor.resetZAxisIntegrator();// set heading to zero
         while (gyroSensor.isCalibrating()) {
@@ -131,7 +137,7 @@ public class DriveTrain {
         opMode.waitForNextHardwareCycle();
 
         if (degrees > 0) { // right turn
-            opMode.telemetry.addData(" Right Turn ", degrees);
+            opMode.telemetry.addData("Right Turn", degrees);
             PivotRight(power);
             int heading = 0;
             while (heading < degrees) {
@@ -140,12 +146,12 @@ public class DriveTrain {
                     return false;
                 }
                 heading = gyroSensor.getHeading();
-                opMode.telemetry.addData("  Heading: ", heading);
+                opMode.telemetry.addData("Heading", heading);
 
             }
             stopMotors();
         } else if (degrees < 0) { // left turn
-            opMode.telemetry.addData(" Left Turn ", degrees);
+            opMode.telemetry.addData("Left Turn", degrees);
             PivotLeft(power);
             int heading = 359;
             while ((heading > (360 + degrees)) || (heading == 0)) {
@@ -155,17 +161,16 @@ public class DriveTrain {
                 }
 
                 heading = gyroSensor.getHeading();
-                opMode.telemetry.addData("  Heading: ", heading);
+                opMode.telemetry.addData("Heading", heading);
             }
             stopMotors();
-
         }
         return true;
     }
 
     //Gyro Test
-    public void GyroTest(){
-        while(true) {
+    public void GyroTest() {
+        while (true) {
             opMode.telemetry.addData("Heading", gyroSensor.getHeading());
         }
     }
