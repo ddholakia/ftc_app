@@ -51,6 +51,7 @@ import edu.fpms.faltech.Auto_R_MS_guys_SZ;
 import edu.fpms.faltech.Auto_R_M_none_PZ;
 import edu.fpms.faltech.Auto_R_M_none_SZ;
 import edu.fpms.faltech.FaltechTeleop1v5;
+import edu.fpms.faltech.FaltechTeleop1v6;
 import edu.fpms.faltech.RobotTestv1;
 
 /**
@@ -75,6 +76,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
         manager.register("FaltechTeleop1v5", FaltechTeleop1v5.class);
+        manager.register("FaltechTeleop1v6", FaltechTeleop1v6.class);
        /* manager.register("RobotTestv1", RobotTestv1.class);
         manager.register("Auto_B_CS_guys_PZ", Auto_B_CS_guys_PZ.class);
         manager.register("Auto_B_CS_guys_SZ", Auto_B_CS_guys_SZ.class);
